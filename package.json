@@ -1,0 +1,19 @@
+{
+  "name": "12th-grade-masters-thesis",
+  "version": "1.0.0",
+  "description": "uwu",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TeodorBankov/12th-grade-masters-thesis.git"
+  },
+  "author": "Teodor Bankov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TeodorBankov/12th-grade-masters-thesis/issues"
+  },
+  "homepage": "https://github.com/TeodorBankov/12th-grade-masters-thesis#readme"
+}
