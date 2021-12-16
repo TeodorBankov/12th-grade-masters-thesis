@@ -1,9 +1,12 @@
 import asyncio
 from shazamio import Shazam
+import sys
 
 async def main():
     shazam = Shazam()
-    out = await shazam.recognize_song('examples_data_dora.ogg')
+    path = __file__.split('/')
+    path.pop()
+    out = await shazam.recognize_song('/'.join(path) + '/' + sys.argv[1])
     print(out)
 
 loop = asyncio.get_event_loop()
