@@ -18,6 +18,7 @@
   "homepage": "https://github.com/TeodorBankov/12th-grade-masters-thesis#readme",
   "dependencies": {
     "axios": "^0.24.0",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "fs": "^0.0.1-security",
     "json5": "^2.2.0",
