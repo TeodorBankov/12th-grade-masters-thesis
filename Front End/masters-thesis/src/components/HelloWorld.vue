@@ -1,7 +1,7 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
-    <h2>cringe lmao</h2>
+    <h2>hdfjkasdfhkasjdhfkjsahf</h2>
     <p>
       For a guide and recipes on how to configure / customize this project,<br />
       check out the

@@ -1,4 +1,6 @@
 const express = require("express");
+const { MongoClient } = require("mongodb");
+const bcrypt = require("bcrypt");
 const axios = require("axios");
 const fs = require("fs");
 const { spawn } = require("child_process");
@@ -8,8 +10,19 @@ const app = express();
 const port = 3000;
 const cors = require("cors");
 
+const client = new MongoClient(
+    `mongodb+srv://admin:${process.env.DB_PASSWORD}@cluster0.fqkqs.mongodb.net/shazamen?retryWrites=true&w=majority`,
+    { useNewUrlParser: true, useUnifiedTopology: true }
+);
+
+const songs_collection = client.db("shazamen").collection("songs");
+
 app.use(cors());
 app.use(express.static(join(__dirname, "../Front End/masters-thesis/dist")));
+
+app.get("/show-response", async (req, res) => {
+    res.send(JSON.stringify((await songs_collection.find().toArray())));
+});
 
 let recognize = (req, res) => {
     var dataToSend;
@@ -19,7 +32,7 @@ let recognize = (req, res) => {
     python.stderr.on("data", (data) => {
         console.log(data.toString());
     });
-    python.stdout.on("data", function (data) {
+    python.stdout.on("data", async function (data) {
         console.log("Pipe data from python script ...");
         // dataToSend = data.toString();
         data = data.toString().split("False").join("false").trim();
@@ -27,6 +40,7 @@ let recognize = (req, res) => {
         try {
             let json = JSON5.parse(data);
             console.log(json);
+            await songs_collection.insertOne(json);
             res.json(json);
         } catch (e) {
             // console.error(e);
@@ -60,3 +74,5 @@ app.get("/fetch-song", async (req, res) => {
 app.listen(port, () => {
     console.log("Listening on port " + port);
 });
+
+client.connect().then(console.log());
