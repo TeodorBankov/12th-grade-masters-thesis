@@ -10,6 +10,8 @@ const app = express();
 const port = 3000;
 const cors = require("cors");
 
+console.log(process.env);
+
 const client = new MongoClient(
     `mongodb+srv://admin:${process.env.DB_PASSWORD}@cluster0.fqkqs.mongodb.net/shazamen?retryWrites=true&w=majority`,
     { useNewUrlParser: true, useUnifiedTopology: true }
@@ -18,7 +20,7 @@ const client = new MongoClient(
 const songs_collection = client.db("shazamen").collection("songs");
 
 app.use(cors());
-app.use(express.static(join(__dirname, "../Front End/masters-thesis/dist")));
+app.use(express.static(join(__dirname, "..", "server", "dist")));
 
 app.get("/show-response", async (req, res) => {
     res.send(JSON.stringify((await songs_collection.find().toArray())));
