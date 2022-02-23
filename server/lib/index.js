@@ -1,5 +1,5 @@
-const { exec, execSync } = require('child_process');
-const { join } = require('path');
+const { exec, execSync, spawn, spawnSync } = require("child_process");
+const { join } = require("path");
 
 /**
  * @param {string} scriptName
@@ -7,24 +7,21 @@ const { join } = require('path');
  * @param {string} args
  */
 const runScript = (scriptName, callback, args) => {
-    exec(`python "${join(__dirname, '..', 'scripts', scriptName)}" ${args}`, callback);
-}
+    spawn(
+        `python3 "${join(__dirname, "..", "scripts", scriptName)}" ${args}`,
+        callback
+    );
+};
 
 /**
  * @param {string} scriptName
  * @param {string} args
  */
 const runScriptSync = (scriptName, args) => {
-    return execSync(`python "${join(__dirname, "..", "scripts", scriptName)}" ${args}`).toString();
-}
-
-// maj shte e dobre da napravq sync ekvivalent
-// moje da se overloadne s class IM GENIUS
+    return spawnSync(`python3`, [
+        join(__dirname, "..", "scripts", scriptName),
+        args,
+    ]);
+};
 
 module.exports = { runScript, runScriptSync };
-
-// interesen vupros
-// IM ALL EARS 
-// no idea
-// davaj
-// 1 minuta da pikaja brb xd

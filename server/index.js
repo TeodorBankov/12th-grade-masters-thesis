@@ -19,16 +19,25 @@ const songs_collection = client.db("shazamen").collection("songs");
 app.use(cors());
 app.use(express.static(join(__dirname, "..", "server", "dist")));
 
+//verobse mode 
+app.use("*", (req, res, done) => {
+    console.log(`${req.method} ${req.path} ${req.ip}`);
+    done();
+})
+
 app.get("/show-response", async(req, res) => {
     res.send(JSON.stringify(await songs_collection.find().toArray()));
 });
 
-let recognize = (_req, res) => {
+let recognize = async(_req, res) => {
     // spawn new child process to call the python script
     console.log("Pipe data from python script ...");
-    let data = JSON.parse(runScriptSync(`music-recognition.py`, `asd.aac`));
+    let data = JSON.parse(runScriptSync(`music-recognition.py`, `asd.aac`).output.toString().split(/[\r\n]/)[0].slice(1));
+    console.log(data);
+
     try {
-        await songs_collection.insertOne(data);
+        //send trimmed data to mongo
+        // songs_collection.insertOne(data);
         res.json(data);
     } catch (e) {
         console.error(e);
