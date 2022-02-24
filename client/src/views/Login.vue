@@ -1,5 +1,8 @@
+
 <template>
+    <div class="login">
     <Credentials></Credentials>
+    </div>
 </template>
 
 <script lang="ts">
