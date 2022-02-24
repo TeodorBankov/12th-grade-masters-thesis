@@ -67,6 +67,17 @@ app.get("/fetch-song", async(req, res) => {
         .catch(console.error);
 });
 
+app.get("/login", async(req, res) => {
+    const user = req.query.user;
+    const password = req.query.password;
+
+    if (user == "teddy" && password == "test") {
+        res.send("ok");
+        return;
+    }
+    res.send("wrong credentials");
+})
+
 app.listen(port, () => {
     console.log("Listening on port " + port);
 });
