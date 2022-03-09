@@ -2,9 +2,9 @@
   <div id="parent">
       <div class="header">
           <router-link to="/">
-            <img alt="logo" src = "https://3.bp.blogspot.com/-lOZajwbK_Tg/VFMa-GadTiI/AAAAAAAAGNA/TwtKQoemnLE/s1600/Logo%2BRecyclable_Box.png">
+            <!-- <img alt="logo" src = "https://3.bp.blogspot.com/-lOZajwbK_Tg/VFMa-GadTiI/AAAAAAAAGNA/TwtKQoemnLE/s1600/Logo%2BRecyclable_Box.png"> -->
           </router-link>
-          <h2>Sign in to "Appname"</h2>
+          <h2>Sign in</h2>
       </div>
     <form class="container" @submit.prevent="login">
       <div class="form">
@@ -15,9 +15,9 @@
       <div class="form">
         <div class="hstack">
           <label for="password">Password</label>
-          <a class="link" href="insert forgot pass link here"
-            >Forgot password?</a
-          >
+          <router-link to="/pass-recovery">
+          <span class="link">Forgot password?</span>
+          </router-link>
         </div>
         <input type="password" v-model="password" />
       </div>
@@ -25,8 +25,15 @@
         <input class="submitbtn" type="submit" value="Sign in" />
       </div>
     </form>
-    <!-- Insert register link design here! -->
     <span>{{ res }}</span>
+    <div class="container">
+      <div class="hstack">
+      <span>No Account?  </span>
+      <button class="linkbutton" @click="$emit('createAcc')">
+        <span class="link">Create one!</span>
+        </button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -90,14 +97,19 @@ export default defineComponent({
   border-radius: 5px;
   display: flex;
   flex-direction: column;
-//   align-content: center; // tova ne znam kvo promenq xd
   justify-content: center;
   width: 460px;
-  height: 250px;
-  margin: auto; 
+  margin:  8px auto; 
+  padding: 20px 0;
   background-color: #41404d;
-//   padding-top: 10px;
-//   padding-bottom: 10px
+
+    a { 
+      text-decoration: none;
+    }
+    .link {
+      text-decoration: none;
+      color: #01b0d3;
+    }
 }
 
 label {
@@ -119,10 +131,10 @@ label {
   input {
     border: solid 0.9px #41404d;
     border-radius: 5px;
-    padding-top: 7px;
-    padding-bottom: 7px;
+    padding: 8px;
     color: #ffffff;
     background-color: #242333;
+    font-weight: bold;
   }
 
   .hstack {
@@ -132,31 +144,32 @@ label {
     align-items: center;
   }
 
-  .link {
-    text-decoration: none;
-    color: #01b0d3;
-  }
 
   .submitbtn {
     background-color: #26a641;
     margin: 10px 0px 0px;
     font-weight: 550;
-  }
-
-  @keyframes buttonhover {
-    0% {
-      background-color: #26a641;
-    }
-    100% {
-      background-color: #39d353;
-    }
+    transition: .5s;
   }
 
   .submitbtn:hover {
-    animation-name: buttonhover;
-    animation-duration: 0.5s;
+    transition: .5s;
     background-color: #39d353;
   }
   
+}
+
+.linkbutton {
+  .link {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
+      sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+      font-weight: 550;
+      font-size: 16px;
+  }
+  background: none;
+  border: none;
+  :hover {
+    cursor: pointer;
+  }
 }
 </style>
