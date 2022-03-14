@@ -47,30 +47,30 @@ let recognize = async(_req, res) => {
 app.get("/recognize-song", recognize);
 
 // https://www.radio-browser.info/
-app.get("/fetch-radio-list", async(req, res) => {
-    const defaultUrl = "https://nl1.api.radio-browser.info/json/stations/search?limit=10&countrycode=BG&hidebroken=true&order=clickcount&reverse=true";
-    if (req.query.q == null) {
-        console.log("query is empty.");
-    }
-    axios({
-            method: "get",
-            url: defaultUrl,
-            responseType: "json",
-        })
-        .then((response) => {
-            let out = response.data;
-            let radios = [];
-            for (let i = 0; i < out.length; i++) {
-                // console.log(out[i].name);
-                radios.push({
-                    "name": out[i].name,
-                    "url": out[i].url,
-                    "favicon": out[i].favicon,
-                });
-            }
-            res.send(radios);
-        })
-});
+// app.get("/fetch-radio-list", async(req, res) => {
+//     const defaultUrl = "https://nl1.api.radio-browser.info/json/stations/search?limit=10&countrycode=BG&hidebroken=true&order=clickcount&reverse=true";
+//     if (req.query.q != null) {
+//         console.log("query is empty.");
+//     }
+//     axios({
+//             method: "get",
+//             url: defaultUrl,
+//             responseType: "json",
+//         })
+//         .then((response) => {
+//             let out = response.data;
+//             let radios = [];
+//             for (let i = 0; i < out.length; i++) {
+//                 // console.log(out[i].name);
+//                 radios.push({
+//                     "name": out[i].name,
+//                     "url": out[i].url,
+//                     "favicon": out[i].favicon,
+//                 });
+//             }
+//             res.send(radios);
+//         })
+// });
 
 app.get("/fetch-song", async(req, res) => {
     const station = "http://tntradio.hostingradio.ru:8027/tntradio128.mp3";

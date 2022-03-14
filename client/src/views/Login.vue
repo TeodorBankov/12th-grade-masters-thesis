@@ -44,9 +44,7 @@ export default defineComponent({
   margin: auto;
   width: 50%;
   gap: 10px;
-  .credentials {
 
-  }
   .login {
     padding-top: 30px;
   }

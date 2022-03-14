@@ -7,7 +7,7 @@
 
 <script>
 // import { defineComponent } from "vue";
-import RadioPlayer from "../components/RadioPlayer.vue";
+import RadioPlayer from "../components/Radio.vue";
 // import Visuals from "../components/Visuals.vue";
 export default {
   components: { RadioPlayer },
