@@ -9,7 +9,7 @@
               {{ index + 1 }}
             </span>
             <img
-              v-if="playingRadio != index"
+              v-if="playingRadio != index" 
               class="inverted play"
               :src="require('@/assets/play-button.png')"
               @click="play(radio.url, index)"
@@ -18,7 +18,7 @@
               v-if="playingRadio == index"
               class="inverted play playing-icon"
               :src="require('@/assets/pause-button.png')"
-              @click="pause(index)"
+              @click="togglePause(index)"
             />
           </span>
           <span class="table-row-name">{{ radio.name }}</span>
@@ -40,9 +40,9 @@
 import { defineComponent } from "vue";
 import RadioSearchBar from "../components/RadioSearchBar.vue";
 
-export default defineComponent({
+export default {
   components: { RadioSearchBar },
-  props: ["radios", "queryStr"],
+  props: ["radios", "queryStr", 'paused'],
   data() {
     return {
       playingRadio: -1,
@@ -57,15 +57,15 @@ export default defineComponent({
       this.playingRadio = index;
       this.$emit("playRadio", url);
     },
-    pause(index) {
+    togglePause(index) {
       this.playingRadio = -1;
       this.$emit("stopRadio");
     },
   },
-});
+};
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .table {
   width: 60vw;
 
@@ -91,7 +91,7 @@ export default defineComponent({
     }
     .play {
       display: none;
-       width: 14px;
+      width: 14px;
     }
     display: flex;
     margin: 4px 8px;
