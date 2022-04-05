@@ -33,7 +33,7 @@ let recognize = async(_req, res) => {
     // spawn new child process to call the python script
     console.log("Pipe data from python script ...");
     let data = JSON.parse(runScriptSync(`music-recognition.py`, `asd.aac`).output.toString().split(/[\r\n]/)[0].slice(1));
-    console.log(data);
+    // console.log(data);
 
     try {
         //send trimmed data to mongo
@@ -73,7 +73,8 @@ app.get("/recognize-song", recognize);
 // });
 
 app.get("/fetch-song", async(req, res) => {
-    const station = "http://tntradio.hostingradio.ru:8027/tntradio128.mp3";
+    const station = req.query.url;
+    console.log(req.query.url);
     axios({
             method: "get",
             url: station,

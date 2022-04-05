@@ -2,7 +2,7 @@
   <div id="radio-player">
     <div class="hstack">
       <div>
-        {{paused}}
+        {{ paused }}
         <span @click="play">
           <img
             class="inverted player-button"
@@ -40,8 +40,8 @@
 <script>
 import { defineComponent } from "vue";
 export default defineComponent({
-  props: ['radioUrl', 'paused'],
-  emits: ['paused', 'play'],
+  props: ["radioUrl", "paused"],
+  emits: ["paused", "play"],
   data() {
     return {
       /** @type {HTMLAudioElement} */
@@ -65,11 +65,11 @@ export default defineComponent({
       if (this.audio.paused) {
         this.isPlaying = false;
         this.audio.play();
-        this.$emit('play');
+        this.$emit("play");
       } else {
         this.isPlaying = true;
         this.audio.pause();
-        this.$emit('paused');
+        this.$emit("paused");
       }
     },
     seek() {
@@ -106,9 +106,12 @@ export default defineComponent({
     },
   },
   watch: {
-      radioUrl (){
-          this.audio.src = this.radioUrl;
-      }
+    radioUrl() {
+      this.audio.src = this.radioUrl;
+    },
+    paused() {
+      console.log(this.paused)
+    },
   },
 });
 </script>
@@ -155,15 +158,15 @@ export default defineComponent({
 
 // https://css-tricks.com/styling-cross-browser-compatible-range-inputs-css/
 
-input[type=range] {
+input[type="range"] {
   -webkit-appearance: none;
   margin: 18px 0;
   width: 100%;
 }
-input[type=range]:focus {
+input[type="range"]:focus {
   outline: none;
 }
-input[type=range]::-webkit-slider-runnable-track {
+input[type="range"]::-webkit-slider-runnable-track {
   width: 100%;
   height: 8.4px;
   cursor: pointer;
@@ -172,7 +175,7 @@ input[type=range]::-webkit-slider-runnable-track {
   border-radius: 1.3px;
   border: 0.2px solid #010101;
 }
-input[type=range]::-webkit-slider-thumb {
+input[type="range"]::-webkit-slider-thumb {
   box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
   border: 1px solid #000000;
   height: 16px;
@@ -183,10 +186,10 @@ input[type=range]::-webkit-slider-thumb {
   -webkit-appearance: none;
   margin-top: -4px;
 }
-input[type=range]:focus::-webkit-slider-runnable-track {
+input[type="range"]:focus::-webkit-slider-runnable-track {
   background: #367ebd;
 }
-input[type=range]::-moz-range-track {
+input[type="range"]::-moz-range-track {
   width: 100%;
   height: 8.4px;
   cursor: pointer;
@@ -195,7 +198,7 @@ input[type=range]::-moz-range-track {
   border-radius: 1.3px;
   border: 0.2px solid #010101;
 }
-input[type=range]::-moz-range-thumb {
+input[type="range"]::-moz-range-thumb {
   box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
   border: 1px solid #000000;
   height: 36px;
@@ -204,7 +207,7 @@ input[type=range]::-moz-range-thumb {
   background: #ffffff;
   cursor: pointer;
 }
-input[type=range]::-ms-track {
+input[type="range"]::-ms-track {
   width: 100%;
   height: 8.4px;
   cursor: pointer;
@@ -213,19 +216,19 @@ input[type=range]::-ms-track {
   border-width: 16px 0;
   color: transparent;
 }
-input[type=range]::-ms-fill-lower {
+input[type="range"]::-ms-fill-lower {
   background: #2a6495;
   border: 0.2px solid #010101;
   border-radius: 2.6px;
   box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
 }
-input[type=range]::-ms-fill-upper {
+input[type="range"]::-ms-fill-upper {
   background: #3071a9;
   border: 0.2px solid #010101;
   border-radius: 2.6px;
   box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
 }
-input[type=range]::-ms-thumb {
+input[type="range"]::-ms-thumb {
   box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
   border: 1px solid #000000;
   height: 36px;
@@ -234,10 +237,10 @@ input[type=range]::-ms-thumb {
   background: #ffffff;
   cursor: pointer;
 }
-input[type=range]:focus::-ms-fill-lower {
+input[type="range"]:focus::-ms-fill-lower {
   background: #3071a9;
 }
-input[type=range]:focus::-ms-fill-upper {
+input[type="range"]:focus::-ms-fill-upper {
   background: #367ebd;
 }
 </style>

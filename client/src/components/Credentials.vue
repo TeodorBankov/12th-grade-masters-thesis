@@ -93,7 +93,7 @@ export default defineComponent({
 }
 
 .container {
-  border: solid 1px #41404d;
+  border: solid 1px #051622;
   border-radius: 5px;
   display: flex;
   flex-direction: column;
@@ -101,7 +101,7 @@ export default defineComponent({
   width: 460px;
   margin:  8px auto; 
   padding: 20px 0;
-  background-color: #41404d;
+  background-color: #051622;
 
     a { 
       text-decoration: none;

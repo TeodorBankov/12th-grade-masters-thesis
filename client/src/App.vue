@@ -10,10 +10,11 @@
 </template>
 
 //// Colors Used: #242333, #FFFFFF, #01B0D3
+//// #051622 #1BA098 #DEB992
 <style lang="scss">
 //app wise editing
 html {
-  background-color: #242333;
+  background-color: #051622;
   scroll-behavior: smooth;
 }
 
@@ -32,7 +33,7 @@ html {
 
   a {
     font-weight: bold;
-    color: #01b0d3;
+    color: #1BA098;
 
     &.router-link-exact-active {
       color: #ffffff;

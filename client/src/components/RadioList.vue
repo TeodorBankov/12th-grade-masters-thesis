@@ -66,12 +66,20 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+#child-container {
+  background-color: #0b2333;
+  border-radius: 10px;
+  // border: red solid 2px;
+}
+.table-row-name, .table-row-country {
+  color: #DEB992
+} 
 .table {
   width: 60vw;
 
   &-row {
     &:hover {
-      background-color: #2d2c33;
+      background-color: #18354b;
       border-radius: 4px;
       .number {
         display: none;
@@ -87,6 +95,7 @@ export default {
     }
 
     .number {
+      color: #1BA098;
       display: initial;
     }
     .play {

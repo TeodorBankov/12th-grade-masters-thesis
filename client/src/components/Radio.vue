@@ -1,32 +1,33 @@
 <template>
   <div id="parent">
-    <NowPlaying/>
-    <div>
-    <RadioList
-      :paused="paused"
-      :radios="radios"
-      @query="updateRadios"
-      @playRadio="playRadio"
-      @stopRadio="stopRadio"
-    />
+    <div id="hstack">
+      <NowPlaying class="now-playing" :recognizedSong="recognizedSong" />
+      <RadioList
+        :paused="paused"
+        :radios="radios"
+        @query="updateRadios"
+        @playRadio="playRadio"
+        @stopRadio="stopRadio"
+      />
+    </div>
+
     <RadioPlayer
       :paused="paused"
       :radioUrl="url"
       @paused="paused = true"
       @play="paused = false"
     />
-    </div>
   </div>
 </template>
 
 <script>
-import { defineComponent } from "vue";
+import { defineComponent, renderSlot } from "vue";
 import Visuals from "./Visuals.vue";
 import RadioList from "./RadioList.vue";
 import RadioPlayer from "./RadioPlayer.vue";
-import RadioBrowser from "radio-browser";
-import NowPlaying from "./NowPlaying.vue"
+import NowPlaying from "./NowPlaying.vue";
 import axios from "axios";
+import ms from "ms";
 export default defineComponent({
   components: { Visuals, RadioList, RadioPlayer, NowPlaying },
   data() {
@@ -34,6 +35,8 @@ export default defineComponent({
       radios: [],
       url: "",
       paused: true,
+      polling: null,
+      recognizedSong: [],
     };
   },
   async created() {
@@ -45,7 +48,7 @@ export default defineComponent({
         by = "country";
         searchterm = "BG";
       }
-      let url = "https://de1.api.radio-browser.info/json/stations/search?";
+      let url = "https://nl1.api.radio-browser.info/json/stations/search?";
       if (by == "country")
         url =
           "https://nl1.api.radio-browser.info/json/stations/search?limit=10&tagList=pop&order=random&reverse=true";
@@ -67,30 +70,54 @@ export default defineComponent({
           };
         });
       });
-      console.log(this.radios);
-      // this.radios = (
-      //   await RadioBrowser.getStations({
-      //     limit: 10,
-      //     by,
-      //     searchterm,
-      //     hidebroken: true,
-      //   })
-      // ).map((radio) => {
-      // });
     },
     playRadio(url) {
       this.url = url;
       this.paused = false;
+      this.startRecognizing();
     },
     stopRadio() {
       this.paused = true;
+      this.stopRecognizing();
+    },
+    getSong() {
+      axios
+        .get("http://localhost:3000/fetch-song", {
+          params: {
+            url: this.url,
+          },
+        })
+        .then((res) => {
+          console.log(res);
+          let song = res.data;
+          let data = {
+            title: song?.track?.title || "No song detected!",
+            subtitle: song?.track?.subtitle || "",
+            img: song?.track?.images?.background || "", //background
+            hrefUrl: song?.url || "", //url
+            genre: song?.track?.genres?.primary || "",
+          };
+          this.recognizedSong = data;
+        })
+        .catch(console.error);
+    },
+     startRecognizing() {
+      this.getSong()
+      this.polling = setInterval(this.getSong, ms("10s"));
+    },
+    stopRecognizing() {
+      clearInterval(this.polling);
     },
   },
 });
 </script>
 
 <style>
-#parent {
+#hstack {
   display: flex;
+}
+.now-playing {
+  margin-right: 10px;
+  margin-top: 40px;
 }
 </style>
