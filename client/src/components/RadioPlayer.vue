@@ -119,8 +119,16 @@ export default defineComponent({
 <style lang="scss">
 #radio-player {
   display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #0b2333;
+  border-radius: 10px;
+  width: 400px;
+  // margin-left: auto;
+  // margin-right: auto;
   .hstack {
     display: flex;
+    align-items: center;
   }
 }
 
@@ -171,9 +179,9 @@ input[type="range"]::-webkit-slider-runnable-track {
   height: 8.4px;
   cursor: pointer;
   box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-  background: #3071a9;
-  border-radius: 1.3px;
-  border: 0.2px solid #010101;
+  background-color: #3071a9;
+  border-radius: 2px;
+  border: 1px solid #010101;
 }
 input[type="range"]::-webkit-slider-thumb {
   box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;

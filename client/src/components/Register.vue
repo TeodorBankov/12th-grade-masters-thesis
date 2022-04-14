@@ -3,7 +3,6 @@
     <div class="header">
       <h2>Join us now:</h2>
     </div>
-
     <form class="container" @submit.prevent="register">
       <div class="form">
         <span class="label">Username</span>
@@ -41,19 +40,16 @@
       <div class="form">
         <input class="submitbtn" type="submit" value="Create Account" />
       </div>
-      <vue-hcaptcha
-        sitekey="b983cde5-ffc6-4238-8a2e-4f5f59f2cb13"
-      ></vue-hcaptcha>
     </form>
   </div>
 </template>
 
 <script lang="js">
+
 import Vue, { defineComponent } from "vue";
-import VueHcaptcha from '@hcaptcha/vue3-hcaptcha';
 import axios from "axios";
+
 export default defineComponent({
-    components: {VueHcaptcha},
     data() {
       return {
         username: "",
@@ -84,6 +80,11 @@ export default defineComponent({
         }
 
       },
+      register() {
+        let userData = {email: this.email, username: this.username, password: this.password}
+        console.log(userData);
+          axios.post('http://localhost:3000/register', userData).then(this.$router.push('/login'))
+      }
     },
     watch: {
       confirmPassword() {

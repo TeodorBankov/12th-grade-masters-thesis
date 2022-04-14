@@ -1,27 +1,34 @@
 <template>
   <div id="parent">
-    <div id="hstack">
-      <NowPlaying class="now-playing" :recognizedSong="recognizedSong" />
-      <RadioList
-        :paused="paused"
-        :radios="radios"
-        @query="updateRadios"
-        @playRadio="playRadio"
-        @stopRadio="stopRadio"
-      />
+    <div id="navbar">
+      <Bar />
     </div>
-
-    <RadioPlayer
-      :paused="paused"
-      :radioUrl="url"
-      @paused="paused = true"
-      @play="paused = false"
-    />
+    <div id="vstack">
+      <div id="hstack">
+        <NowPlaying class="now-playing" :recognizedSong="recognizedSong" />
+        <RadioList
+          :paused="paused"
+          :radios="radios"
+          @query="updateRadios"
+          @playRadio="playRadio"
+          @stopRadio="stopRadio"
+        />
+      </div>
+      <div id="player">
+        <RadioPlayer
+          :paused="paused"
+          :radioUrl="url"
+          @paused="paused = true"
+          @play="paused = false"
+        />
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import { defineComponent, renderSlot } from "vue";
+import Bar from "./Bar.vue";
 import Visuals from "./Visuals.vue";
 import RadioList from "./RadioList.vue";
 import RadioPlayer from "./RadioPlayer.vue";
@@ -29,7 +36,7 @@ import NowPlaying from "./NowPlaying.vue";
 import axios from "axios";
 import ms from "ms";
 export default defineComponent({
-  components: { Visuals, RadioList, RadioPlayer, NowPlaying },
+  components: { Visuals, RadioList, RadioPlayer, NowPlaying, Bar },
   data() {
     return {
       radios: [],
@@ -94,15 +101,15 @@ export default defineComponent({
             title: song?.track?.title || "No song detected!",
             subtitle: song?.track?.subtitle || "",
             img: song?.track?.images?.background || "", //background
-            hrefUrl: song?.url || "", //url
+            hrefUrl: song?.track?.share?.href || "", //url
             genre: song?.track?.genres?.primary || "",
           };
           this.recognizedSong = data;
         })
         .catch(console.error);
     },
-     startRecognizing() {
-      this.getSong()
+    startRecognizing() {
+      this.getSong();
       this.polling = setInterval(this.getSong, ms("10s"));
     },
     stopRecognizing() {
@@ -113,8 +120,19 @@ export default defineComponent({
 </script>
 
 <style>
+#navbar {
+  padding-bottom: 10px;
+}
+#vstack {
+  display: flex;
+  flex-direction: column;
+}
 #hstack {
   display: flex;
+  justify-content: space-between;
+}
+#player {
+  padding-top: 10px;
 }
 .now-playing {
   margin-right: 10px;

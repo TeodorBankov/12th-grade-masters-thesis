@@ -6,17 +6,23 @@ const fs = require("fs");
 const { spawn, exec } = require("child_process");
 const { join } = require("path");
 const { runScript, runScriptSync } = require('./lib');
+const jwt = require("jsonwebtoken");
 const app = express();
 const port = 3000;
 const cors = require("cors");
+
 
 const client = new MongoClient(
     `mongodb+srv://admin:${process.env.DB_PASSWORD}@cluster0.fqkqs.mongodb.net/shazamen?retryWrites=true&w=majority`, { useNewUrlParser: true, useUnifiedTopology: true }
 );
 
 const songs_collection = client.db("shazamen").collection("songs");
+const user_collection = client.db("shazamen").collection("users");
 
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 app.use(cors());
+// app.use(json())
 app.use(express.static(join(__dirname, "..", "server", "dist")));
 
 //verobse mode 
@@ -92,15 +98,20 @@ app.get("/fetch-song", async(req, res) => {
         .catch(console.error);
 });
 
-app.get("/login", async(req, res) => {
+app.post("/login", async(req, res) => {
     const user = req.query.user;
     const password = req.query.password;
-
-    if (user == "teddy" && password == "test") {
-        res.send("ok");
-        return;
-    }
+    console.log(req.query);
     res.send("wrong credentials");
+})
+
+app.post("/register", async(req, res) => {
+    // console.log(res.body);
+    const { email, username, password } = req.body;
+
+    console.log(email, username, password);
+    // const password = req.body.password;
+    // res.send(await bcrypt.hash(password, 10));
 })
 
 app.listen(port, () => {

@@ -12,6 +12,27 @@
       <span id="song-name"> {{ title }}</span>
       <span id="song-subtitle"> {{ subtitle }}</span>
     </div>
+    <div class="hstack">
+      <div id="genre">
+        <span class="label">Genre: </span>
+        <span class="song-genre">{{ genre }}</span>
+      </div>
+      <div v-if="hrefUrl !== '' ">
+        <a :href="`${hrefUrl}`">
+          <img
+            class="inverted share-icon"
+            :src="require('@/assets/share-icon.png')"
+          />
+        </a>
+      </div>
+      <div v-else> 
+        <img
+            class="inverted share-icon"
+            style="opacity: 60%;"
+            :src="require('@/assets/share-icon.png')"
+          />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -20,11 +41,11 @@ export default {
   props: ["recognizedSong"],
   data() {
     return {
-      title: "stay with me",
-      subtitle: "more",
+      title: "No song playing", //
+      subtitle: "-", //
       img: "", //background
-      hrefUrl: "aa", //url
-      genre: "aa",
+      hrefUrl: "", //url
+      genre: "",
       recognizedSongsInSession: [],
     };
   },
@@ -39,6 +60,7 @@ export default {
       this.img = normalizedData["img"];
       this.hrefUrl = normalizedData["hrefUrl"];
       this.genre = normalizedData["genre"];
+      console.log("a" + normalizedData["hrefUrl"]);
       if (
         !recognizedSongs.includes(normalizedData["title"]) &&
         normalizedData["title"] != "No song Detected!"
@@ -79,11 +101,35 @@ export default {
 }
 #current-song-info {
   display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+}
+#genre {
+  display: flex;
+  align-content: flex-start;
+  margin-left: 24px;
+}
+.hstack {
+  display: flex;
+  justify-content: space-between;
+}
+.label {
+  color: #deb992;
+  opacity: 60%;
+  padding-right: 6px;
+}
+.song-genre {
+  color: #deb992;
 }
 .playing-pic {
   max-height: 50vh;
+  max-width: 29vw;
 }
 .inverted {
   filter: invert(100%);
+}
+.share-icon {
+  margin-right: 30px;
+  width: 20px;
 }
 </style>

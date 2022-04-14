@@ -9,7 +9,7 @@
               {{ index + 1 }}
             </span>
             <img
-              v-if="playingRadio != index" 
+              v-if="playingRadio != index"
               class="inverted play"
               :src="require('@/assets/play-button.png')"
               @click="play(radio.url, index)"
@@ -42,7 +42,7 @@ import RadioSearchBar from "../components/RadioSearchBar.vue";
 
 export default {
   components: { RadioSearchBar },
-  props: ["radios", "queryStr", 'paused'],
+  props: ["radios", "queryStr", "paused"],
   data() {
     return {
       playingRadio: -1,
@@ -66,16 +66,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#child-container {
-  background-color: #0b2333;
-  border-radius: 10px;
-  // border: red solid 2px;
+.table-row-name,
+.table-row-country {
+  color: #deb992;
 }
-.table-row-name, .table-row-country {
-  color: #DEB992
-} 
 .table {
-  width: 60vw;
+  width: 68vw;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 18px;
 
   &-row {
     &:hover {
@@ -95,7 +94,7 @@ export default {
     }
 
     .number {
-      color: #1BA098;
+      color: #1ba098;
       display: initial;
     }
     .play {
@@ -140,6 +139,18 @@ export default {
 #child-container {
   display: flex;
   flex-direction: column;
+  background-color: #0b2333;
+  border-radius: 10px;
+  height: 420px;
+  padding-right: 2px;
+  padding-bottom: 2px;
+}
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: #1d374b;
+  border-radius: 10px;
 }
 
 .radio-name {
