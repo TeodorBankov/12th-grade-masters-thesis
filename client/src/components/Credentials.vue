@@ -1,22 +1,22 @@
 <template>
   <div id="parent">
-      <div class="header">
-          <router-link to="/">
-            <!-- <img alt="logo" src = "https://3.bp.blogspot.com/-lOZajwbK_Tg/VFMa-GadTiI/AAAAAAAAGNA/TwtKQoemnLE/s1600/Logo%2BRecyclable_Box.png"> -->
-          </router-link>
-          <h2>Sign in</h2>
-      </div>
+    <div class="header">
+      <router-link to="/">
+        <!-- <img alt="logo" src = "https://3.bp.blogspot.com/-lOZajwbK_Tg/VFMa-GadTiI/AAAAAAAAGNA/TwtKQoemnLE/s1600/Logo%2BRecyclable_Box.png"> -->
+      </router-link>
+      <h2>Sign in</h2>
+    </div>
     <form class="container" @submit.prevent="login">
       <div class="form">
         <label for="username">Username</label>
         <input v-model="username" />
       </div>
-      <br>
+      <br />
       <div class="form">
         <div class="hstack">
           <label for="password">Password</label>
           <router-link to="/pass-recovery">
-          <span class="link">Forgot password?</span>
+            <span class="link">Forgot password?</span>
           </router-link>
         </div>
         <input type="password" v-model="password" />
@@ -25,12 +25,12 @@
         <input class="submitbtn" type="submit" value="Sign in" />
       </div>
     </form>
-    <span>{{ res }}</span>
+    <span>{{ labelTextUser }}</span>
     <div class="container">
       <div class="hstack">
-      <span>No Account?  </span>
-      <button class="linkbutton" @click="$emit('createAcc')">
-        <span class="link">Create one!</span>
+        <span>No Account? </span>
+        <button class="linkbutton" @click="$emit('createAcc')">
+          <span class="link">Create one!</span>
         </button>
       </div>
     </div>
@@ -49,6 +49,8 @@ export default defineComponent({
    data() {
     return {
       username: "",
+      isLogging: false,
+      labelTextUser: "",
       password: "",
       res: "",
       router: useRouter()
@@ -56,11 +58,21 @@ export default defineComponent({
   },
   methods: {
     async login() {
+      if(this.username==""||this.password==""){
+        this.labelTextUser="Enter valid credentials"
+        return null;
+      }
+      this.labelTextUser = "Please wait!"
+      try{
       this.res = await (
         await axios.post("http://localhost:3000/login", { username: this.username, password: this.password })
       ).data;
-      window.localStorage.setItem("token",this.res)
+       window.localStorage.setItem("token",this.res)
       this.router.push({ path: '/main', replace: true })
+      }catch(error){
+        this.labelTextUser="Wrong credentials"
+      }
+     
     },
   },
 });
@@ -81,14 +93,13 @@ export default defineComponent({
   justify-content: center;
   width: 50%;
   margin: 0 auto 10px;
-  h2 { 
-      font-weight: normal;
+  h2 {
+    font-weight: normal;
   }
-  img { 
-      width: 30%;
-      height: 30%;
+  img {
+    width: 30%;
+    height: 30%;
   }
-    
 }
 
 .container {
@@ -98,17 +109,17 @@ export default defineComponent({
   flex-direction: column;
   justify-content: center;
   width: 460px;
-  margin:  8px auto; 
+  margin: 8px auto;
   padding: 20px 0;
   background-color: #051622;
 
-    a { 
-      text-decoration: none;
-    }
-    .link {
-      text-decoration: none;
-      color: #01b0d3;
-    }
+  a {
+    text-decoration: none;
+  }
+  .link {
+    text-decoration: none;
+    color: #01b0d3;
+  }
 }
 
 label {
@@ -143,27 +154,25 @@ label {
     align-items: center;
   }
 
-
   .submitbtn {
     background-color: #26a641;
     margin: 10px 0px 0px;
     font-weight: 550;
-    transition: .5s;
+    transition: 0.5s;
   }
 
   .submitbtn:hover {
-    transition: .5s;
+    transition: 0.5s;
     background-color: #39d353;
   }
-  
 }
 
 .linkbutton {
   .link {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
       sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-      font-weight: 550;
-      font-size: 16px;
+    font-weight: 550;
+    font-size: 16px;
   }
   background: none;
   border: none;

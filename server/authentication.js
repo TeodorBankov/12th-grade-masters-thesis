@@ -4,8 +4,11 @@ const axios = require("axios");
 const jwt = require("jsonwebtoken");
 
 const login = async(req, res, next) => {
+
+    console.log(req.body)
     const username = req.body.username;
     const password = req.body.password;
+
     if (userExists(username)) {
         if ((await checkPassword(username, password)) == true) {
             const user = { name: req.body.username };
@@ -17,6 +20,7 @@ const login = async(req, res, next) => {
     } else {
         next(new Error("No such user exists!"));
     }
+
 };
 
 
@@ -51,10 +55,14 @@ async function userExists(usernameParam) {
 }
 
 async function checkPassword(usernameParam, passwordParam) {
-    const user = await user_collection.findOne({ username: usernameParam });
-    const password = user.password;
-    console.log(bcrypt.compareSync(passwordParam, password));
-    return bcrypt.compareSync(passwordParam, password);
+    try {
+        const user = await user_collection.findOne({ username: usernameParam });
+        const password = user.password;
+        console.log(bcrypt.compareSync(passwordParam, password));
+        return bcrypt.compareSync(passwordParam, password);
+    } catch (err) {
+        return false;
+    }
 }
 
 async function hashPassword(password, saltRounds = 5) {
@@ -83,7 +91,7 @@ const verifyTokenTest = async(req, res, next) => {
         res.send("Valid")
     })
 }
-const authenticateTOken = function authenticateToken(req, res, next) {
+const authenticateToken = function authenticateToken(req, res, next) {
     const authHeader = req.headers['authorization']
     const token = authHeader && authHeader.split(' ')[1]
 
@@ -104,5 +112,6 @@ module.exports = {
     login,
     register,
     verifyToken,
-    verifyTokenTest
+    verifyTokenTest,
+    authenticateToken
 };
