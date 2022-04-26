@@ -48,6 +48,7 @@
 
 import Vue, { defineComponent } from "vue";
 import axios from "axios";
+import { useRouter, useRoute } from 'vue-router'
 
 export default defineComponent({
     data() {
@@ -58,6 +59,7 @@ export default defineComponent({
         confirmPassword: "",
         showPasswordMatchError: false,
         displayPasswordWarning: false,
+        router: useRouter()
       };
     },
     methods: {
@@ -74,16 +76,18 @@ export default defineComponent({
         if(this.password.contains(/[a-z]/)){
           if(this.password.contains(/[A-Z]/)) {
             if(this.password.contains(/\d/)) {
-              console.log("PASSWORD WERK!");
+              console.log("PASSWORD is weak!");
             }
           }
         }
 
       },
-      register() {
+     async register() {
         let userData = {email: this.email, username: this.username, password: this.password}
         console.log(userData);
-          axios.post('http://localhost:3000/register', userData).then(this.$router.push('/login'))
+          let result =  (await axios.post('http://localhost:3000/register', userData)).data;
+          window.localStorage.setItem("token",result)
+          this.router.push({ path: '/main', replace: true })
       }
     },
     watch: {

@@ -28,5 +28,5 @@ WORKDIR /app
 RUN apk add gcc g++ python3-dev py3-pip ffmpeg
 RUN pip3 install -r requirements.txt
 WORKDIR /app/server
-ENV DB_PASSWORD=hahano
+ENV DB_PASSWORD=DQBdPZKB0mGuXhef
 CMD [ "yarn", "start" ]

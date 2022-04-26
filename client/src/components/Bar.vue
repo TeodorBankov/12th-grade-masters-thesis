@@ -18,15 +18,54 @@
       <router-link to="/about">
         <span class="button"> About </span>
       </router-link>
-      <router-link to="/profile">
+      <router-link v-if="isLoggedIn()" to="/profile">
         <span class="button"> Profile </span>
+      </router-link>
+      <router-link v-if="!isLoggedIn()" to="/login">
+        <span class="button"> Log in </span>
       </router-link>
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  methods: {
+    isLoggedIn() {
+      let token = window.localStorage.getItem("token");
+      console.log("token: " + token);
+      if (!token) return false;
+      try {
+        let payloadEncoded = token.split(".")[1];
+        let payloadDecoded = atob(payloadEncoded);
+
+        if (!payloadDecoded) return false;
+        let payload = JSON.parse(payloadDecoded);
+        let expDate = new Date(payload.exp * 1000);
+        let accessIsExpired = !(expDate > new Date());
+        return accessIsExpired;
+      } catch (e) {
+        return false;
+      }
+    },
+    isTokenExpired(token) {
+      if (!token || token === "undefined") return true;
+      try {
+        if (token == null) {
+          return true;
+        }
+        try {
+          const expiry = JSON.parse(atob(token.split(".")[1])).exp;
+          return Date.now() >= expiry * 1000;
+        } catch (exception) {
+          return exception.status;
+        }
+      } catch (exception) {
+        return true;
+      }
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>

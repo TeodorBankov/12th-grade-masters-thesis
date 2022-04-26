@@ -3,10 +3,10 @@
     <template v-if="createAcc">
       <div id="align">
         <div class="credentials">
-        <Credentials />
+          <Credentials />
         </div>
-        <div class=login>
-        <Register></Register>
+        <div class="login">
+          <Register></Register>
         </div>
       </div>
     </template>

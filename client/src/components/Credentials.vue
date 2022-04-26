@@ -42,26 +42,25 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import axios from "axios";
+import { useRouter, useRoute } from 'vue-router'
 
 export default defineComponent({
-  data() {
+  
+   data() {
     return {
       username: "",
       password: "",
       res: "",
+      router: useRouter()
     };
   },
   methods: {
     async login() {
-      const { username, password } = this;
       this.res = await (
-        await axios.get("http://localhost:3000/login", {
-          params: {
-            user: username,
-            password: password,
-          },
-        })
+        await axios.post("http://localhost:3000/login", { username: this.username, password: this.password })
       ).data;
+      window.localStorage.setItem("token",this.res)
+      this.router.push({ path: '/main', replace: true })
     },
   },
 });

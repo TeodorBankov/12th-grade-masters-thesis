@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const { MongoClient } = require("mongodb");
 const bcrypt = require("bcrypt");
@@ -5,13 +6,13 @@ const axios = require("axios");
 const fs = require("fs");
 const { spawn, exec } = require("child_process");
 const { join } = require("path");
-const { runScript, runScriptSync } = require('./lib');
+const { runScript, runScriptSync } = require("./lib");
 const jwt = require("jsonwebtoken");
 const app = express();
 const port = 3000;
 const cors = require("cors");
 
-
+const auth = require('./authentication')
 const client = new MongoClient(
     `mongodb+srv://admin:${process.env.DB_PASSWORD}@cluster0.fqkqs.mongodb.net/shazamen?retryWrites=true&w=majority`, { useNewUrlParser: true, useUnifiedTopology: true }
 );
@@ -25,11 +26,11 @@ app.use(cors());
 // app.use(json())
 app.use(express.static(join(__dirname, "..", "server", "dist")));
 
-//verobse mode 
+//verobse mode
 app.use("*", (req, res, done) => {
     console.log(`${req.method} ${req.path} ${req.ip}`);
     done();
-})
+});
 
 app.get("/show-response", async(req, res) => {
     res.send(JSON.stringify(await songs_collection.find().toArray()));
@@ -38,7 +39,12 @@ app.get("/show-response", async(req, res) => {
 let recognize = async(_req, res) => {
     // spawn new child process to call the python script
     console.log("Pipe data from python script ...");
-    let data = JSON.parse(runScriptSync(`music-recognition.py`, `asd.aac`).output.toString().split(/[\r\n]/)[0].slice(1));
+    let data = JSON.parse(
+        runScriptSync(`music-recognition.py`, `asd.aac`)
+        .output.toString()
+        .split(/[\r\n]/)[0]
+        .slice(1)
+    );
     // console.log(data);
 
     try {
@@ -52,32 +58,26 @@ let recognize = async(_req, res) => {
 
 app.get("/recognize-song", recognize);
 
-// https://www.radio-browser.info/
-// app.get("/fetch-radio-list", async(req, res) => {
-//     const defaultUrl = "https://nl1.api.radio-browser.info/json/stations/search?limit=10&countrycode=BG&hidebroken=true&order=clickcount&reverse=true";
-//     if (req.query.q != null) {
-//         console.log("query is empty.");
-//     }
-//     axios({
-//             method: "get",
-//             url: defaultUrl,
-//             responseType: "json",
-//         })
-//         .then((response) => {
-//             let out = response.data;
-//             let radios = [];
-//             for (let i = 0; i < out.length; i++) {
-//                 // console.log(out[i].name);
-//                 radios.push({
-//                     "name": out[i].name,
-//                     "url": out[i].url,
-//                     "favicon": out[i].favicon,
-//                 });
-//             }
-//             res.send(radios);
-//         })
-// });
+app.get("/testTokenVerify", authenticateToken, (req, res) => {
+    res.send(req.user.name)
+})
 
+function authenticateToken(req, res, next) {
+    const authHeader = req.headers['authorization']
+    const token = authHeader && authHeader.split(' ')[1]
+
+    if (token == null) return res.sendStatus(401)
+
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+        console.log(err)
+
+        if (err) return res.sendStatus(403)
+        console.log(user)
+        req.user = user
+
+        next()
+    })
+}
 app.get("/fetch-song", async(req, res) => {
     const station = req.query.url;
     console.log(req.query.url);
@@ -98,24 +98,13 @@ app.get("/fetch-song", async(req, res) => {
         .catch(console.error);
 });
 
-app.post("/login", async(req, res) => {
-    const user = req.query.user;
-    const password = req.query.password;
-    console.log(req.query);
-    res.send("wrong credentials");
-})
+app.post("/login", auth.login)
 
-app.post("/register", async(req, res) => {
-    // console.log(res.body);
-    const { email, username, password } = req.body;
+app.post("/register", auth.register);
 
-    console.log(email, username, password);
-    // const password = req.body.password;
-    // res.send(await bcrypt.hash(password, 10));
-})
 
 app.listen(port, () => {
     console.log("Listening on port " + port);
 });
 
-client.connect().then(console.log());
+// client.connect().then(console.log());
