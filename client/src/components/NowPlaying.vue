@@ -17,7 +17,13 @@
         <span class="label">Genre: </span>
         <span class="song-genre">{{ genre }}</span>
       </div>
-      <div v-if="hrefUrl !== '' ">
+      <div v-if="hrefUrl !== ''">
+        <a  @click="addToLiked(), $emit('songAdded')">
+          <img
+            class="inverted share-icon"
+            :src="require('@/assets/heart-icon.png')"
+          />
+        </a>
         <a :href="`${hrefUrl}`">
           <img
             class="inverted share-icon"
@@ -25,19 +31,22 @@
           />
         </a>
       </div>
-      <div v-else> 
+      <div v-else>
         <img
-            class="inverted share-icon"
-            style="opacity: 60%;"
-            :src="require('@/assets/share-icon.png')"
-          />
+          class="inverted share-icon"
+          style="opacity: 60%"
+          :src="require('@/assets/share-icon.png')"
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
+  emits: ["songAdded"],
   props: ["recognizedSong"],
   data() {
     return {
@@ -50,6 +59,26 @@ export default {
     };
   },
   methods: {
+    async addToLiked() {
+      let res = await (
+        await axios.post(
+          "http://localhost:3000/addToLiked",
+          {
+            title: this.title,
+            subtitle: this.subtitle,
+            img: this.img,
+            hrefUrl: this.hrefUrl,
+            genre: this.genre,
+          },
+          {
+            headers: {
+              Authorization: "Bearer " + window.localStorage.getItem("token"),
+            },
+          }
+        )
+      ).data;
+      console.log(res);
+    },
     updateData() {
       let normalizedData = JSON.parse(JSON.stringify(this.recognizedSong));
       let recognizedSongs = this.recognizedSongsInSession.map((songName) => {

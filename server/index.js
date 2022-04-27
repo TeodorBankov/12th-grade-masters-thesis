@@ -13,6 +13,8 @@ const port = 3000;
 const cors = require("cors");
 
 const auth = require('./authentication')
+const song = require('./song')
+
 const client = new MongoClient(
     `mongodb+srv://admin:${process.env.DB_PASSWORD}@cluster0.fqkqs.mongodb.net/shazamen?retryWrites=true&w=majority`, { useNewUrlParser: true, useUnifiedTopology: true }
 );
@@ -45,38 +47,27 @@ let recognize = async(_req, res) => {
         .split(/[\r\n]/)[0]
         .slice(1)
     );
-    // console.log(data);
+    // console.log("DATA " + data);
 
     try {
         //send trimmed data to mongo
         // songs_collection.insertOne(data);
         res.json(data);
     } catch (e) {
-        console.error(e);
+        console.error("Error in recognize");
     }
 };
 
 app.get("/recognize-song", recognize);
 
-app.get("/testTokenVerify", authenticateToken, (req, res) => {
+app.get("/testTokenVerify", auth.authenticateToken, (req, res) => {
     res.send(req.user.name)
 })
 
-function authenticateToken(req, res, next) {
-    const authHeader = req.headers['authorization']
-    const token = authHeader && authHeader.split(' ')[1]
+app.post("/addToLiked", auth.authenticateToken, song.addToLiked)
 
-    if (token == null) return res.sendStatus(401)
+app.get("/getLikedSongs", auth.authenticateToken, song.getLikedSongs)
 
-    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-
-        if (err) return res.sendStatus(403)
-        console.log(user)
-        req.user = user
-
-        next()
-    })
-}
 app.get("/fetch-song", async(req, res) => {
     const station = req.query.url;
     console.log(req.query.url);

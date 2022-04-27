@@ -1,74 +1,53 @@
 <template>
-<div>
-  <div id="container">
-    <div id="child-container">
-      <RadioSearchBar @query="search" />
-      <div class="table">
-        <div v-for="(radio, index) in radios" :key="radio.id" class="table-row">
-          <span class="table-row-index">
-            <span v-if="playingRadio != index" class="number">
-              {{ index + 1 }}
-            </span>
-            <img
-              v-if="playingRadio != index"
-              class="inverted play"
-              :src="require('@/assets/play-button.png')"
-              @click="play(radio.url, index)"
-            />
-            <img
-              v-if="playingRadio == index"
-              class="inverted play playing-icon"
-              :src="require('@/assets/pause-button.png')"
-              @click="togglePause(index)"
-            />
-          </span>
-          <span class="table-row-name">{{ radio.name }}</span>
-          <span class="table-row-country">{{ radio.country }}</span>
-          <span class="table-row-img">
-            <img
-              :class="radio.favicon ? '' : 'inverted'"
-              :src="radio.favicon || require('@/assets/radio-icon.png')"
-              alt=""
-            />
-          </span>
+  <div id="container-liked">
+    <h1>"Liked songs"</h1>
+    <div id="container">
+      <div id="child-container">
+        <div class="table">
+          <div v-for="song in likedSongs" :key="song.title" class="table-row">
+            <p>{{ song.title }}</p>
+          </div>
         </div>
       </div>
     </div>
   </div>
-   
-  </div>
 </template>
 
 <script>
-import { defineComponent } from "vue";
-import RadioSearchBar from "../components/RadioSearchBar.vue";
-import LikedSongs from "./LikedSongs.vue"
+import axios from "axios";
+
 export default {
-  components: { RadioSearchBar, LikedSongs },
-  props: ["radios", "queryStr", "paused"],
+  props:["likedSongs"],
   data() {
     return {
-      playingRadio: -1,
+     
     };
   },
-  emits: ["query", "playRadio", "stopRadio"],
+  async mounted() {
+    this.getSongs();
+  },
   methods: {
-    search(query) {
-      this.$emit("query", query);
-    },
-    play(url, index) {
-      this.playingRadio = index;
-      this.$emit("playRadio", url);
-    },
-    togglePause(index) {
-      this.playingRadio = -1;
-      this.$emit("stopRadio");
-    },
+   async getSongs() {
+      this.likedSongs = (
+        await axios.get("http://localhost:3000/getLikedSongs", {
+          headers: {
+            Authorization: "Bearer " + window.localStorage.getItem("token"),
+          },
+        })
+      ).data;
+    }
   },
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang='scss' scoped>
+#container-liked {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-content: center;
+  align-items: center;
+}
 .table-row-name,
 .table-row-country {
   color: #deb992;
@@ -135,7 +114,6 @@ export default {
 }
 #container {
   display: flex;
-  
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
     sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
 }

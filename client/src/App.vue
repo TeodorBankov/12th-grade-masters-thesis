@@ -14,7 +14,7 @@
 <style lang="scss">
 //app wise editing
 html {
-  background-color: #051622;
+  background-color: #184a6e;
   scroll-behavior: smooth;
 }
 

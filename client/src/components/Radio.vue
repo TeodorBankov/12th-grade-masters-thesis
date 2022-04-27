@@ -5,7 +5,11 @@
     </div>
     <div id="vstack">
       <div id="hstack">
-        <NowPlaying class="now-playing" :recognizedSong="recognizedSong" />
+        <NowPlaying
+          class="now-playing"
+          @songAdded="test"
+          :recognizedSong="recognizedSong"
+        />
         <RadioList
           :paused="paused"
           :radios="radios"
@@ -14,6 +18,7 @@
           @stopRadio="stopRadio"
         />
       </div>
+
       <div id="player">
         <RadioPlayer
           :paused="paused"
@@ -21,6 +26,7 @@
           @paused="paused = true"
           @play="paused = false"
         />
+        <LikedSongs :likedSongs="likedSongs" />
       </div>
     </div>
   </div>
@@ -32,13 +38,15 @@ import Bar from "./Bar.vue";
 import Visuals from "./Visuals.vue";
 import RadioList from "./RadioList.vue";
 import RadioPlayer from "./RadioPlayer.vue";
+import LikedSongs from "./LikedSongs.vue";
 import NowPlaying from "./NowPlaying.vue";
 import axios from "axios";
 import ms from "ms";
 export default defineComponent({
-  components: { Visuals, RadioList, RadioPlayer, NowPlaying, Bar },
+  components: { Visuals, RadioList, RadioPlayer, NowPlaying, Bar, LikedSongs },
   data() {
     return {
+      likedSongs :[],
       radios: [],
       url: "",
       paused: true,
@@ -77,6 +85,9 @@ export default defineComponent({
           };
         });
       });
+    },
+    test() {
+      console.log("WORKS MATE");
     },
     playRadio(url) {
       this.url = url;
@@ -132,6 +143,7 @@ export default defineComponent({
   justify-content: space-between;
 }
 #player {
+  margin-top: 0;
   padding-top: 10px;
 }
 .now-playing {
