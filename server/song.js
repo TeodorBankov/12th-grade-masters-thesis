@@ -29,7 +29,12 @@ const getLikedSongs = async(req, res, next) => {
 
 }
 
+const removeSong = async(req, res, next) => {
+    await liked_collection.deleteOne({ username: req.user.name, title: req.body.title })
+    res.send("oke")
+}
 module.exports = {
     addToLiked,
-    getLikedSongs
+    getLikedSongs,
+    removeSong
 };

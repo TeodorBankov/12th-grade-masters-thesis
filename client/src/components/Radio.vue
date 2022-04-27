@@ -7,7 +7,7 @@
       <div id="hstack">
         <NowPlaying
           class="now-playing"
-          @songAdded="test"
+          @songAdded="songAdded"
           :recognizedSong="recognizedSong"
         />
         <RadioList
@@ -26,7 +26,7 @@
           @paused="paused = true"
           @play="paused = false"
         />
-        <LikedSongs :likedSongs="likedSongs" />
+        <LikedSongs ref="LikedSongs" />
       </div>
     </div>
   </div>
@@ -42,6 +42,10 @@ import LikedSongs from "./LikedSongs.vue";
 import NowPlaying from "./NowPlaying.vue";
 import axios from "axios";
 import ms from "ms";
+import {ref} from 'vue'
+
+
+
 export default defineComponent({
   components: { Visuals, RadioList, RadioPlayer, NowPlaying, Bar, LikedSongs },
   data() {
@@ -52,6 +56,7 @@ export default defineComponent({
       paused: true,
       polling: null,
       recognizedSong: [],
+      LikedSongs
     };
   },
   async created() {
@@ -86,8 +91,8 @@ export default defineComponent({
         });
       });
     },
-    test() {
-      console.log("WORKS MATE");
+    songAdded() {
+      this.$refs.LikedSongs.getSongs()
     },
     playRadio(url) {
       this.url = url;

@@ -68,6 +68,8 @@ app.post("/addToLiked", auth.authenticateToken, song.addToLiked)
 
 app.get("/getLikedSongs", auth.authenticateToken, song.getLikedSongs)
 
+app.delete("/deleteSong", auth.authenticateToken, song.removeSong)
+
 app.get("/fetch-song", async(req, res) => {
     const station = req.query.url;
     console.log(req.query.url);

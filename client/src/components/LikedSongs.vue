@@ -1,11 +1,30 @@
 <template>
   <div id="container-liked">
-    <h1>"Liked songs"</h1>
+    <h1>Liked songs:</h1>
     <div id="container">
       <div id="child-container">
         <div class="table">
-          <div v-for="song in likedSongs" :key="song.title" class="table-row">
-            <p>{{ song.title }}</p>
+          <div v-for="(song) in likedSongs" :key="song.title" class="table-row">
+            <span class="number">
+              <a :href="song.hrefUrl">
+                <img :src="require('@/assets/share-icon.png')" />
+              </a>
+            </span>
+
+            <span class="number" @click="removeSong(song.title)">
+              <img :src="require('@/assets/trash-icon.png')" />
+            </span>
+            <span class="table-row-name">{{ song.title }}</span>
+            <span class="table-row-country">{{ song.subtitle }}</span>
+
+            <span class="table-row-img">
+              <img
+                class="image-song"
+                style="height: 50px !important"
+                :src="song.img || require('@/assets/radio-icon.png')"
+                alt=""
+              />
+            </span>
           </div>
         </div>
       </div>
@@ -17,17 +36,28 @@
 import axios from "axios";
 
 export default {
-  props:["likedSongs"],
   data() {
     return {
-     
+      likedSongs: [],
     };
   },
   async mounted() {
     this.getSongs();
   },
   methods: {
-   async getSongs() {
+    async removeSong(titleParam) {
+     
+      await axios.delete("http://localhost:3000/deleteSong", {
+        headers: {
+          Authorization: "Bearer " + window.localStorage.getItem("token"),
+        },
+        data: {
+          title: titleParam
+        }
+      })
+      this.getSongs();
+    },
+    async getSongs() {
       this.likedSongs = (
         await axios.get("http://localhost:3000/getLikedSongs", {
           headers: {
@@ -35,8 +65,9 @@ export default {
           },
         })
       ).data;
-    }
+    },
   },
+  setup() {},
 };
 </script>
 
@@ -48,9 +79,17 @@ export default {
   align-content: center;
   align-items: center;
 }
+.number:hover {
+  transition: transform ease 300ms;
+  transform: translate(0, -10px);
+}
 .table-row-name,
 .table-row-country {
   color: #deb992;
+}
+
+.table-row {
+  height: 50px;
 }
 .table {
   width: 68vw;
@@ -63,7 +102,7 @@ export default {
       background-color: #18354b;
       border-radius: 4px;
       .number {
-        display: none;
+        visibility: initial;
       }
       .play {
         width: 14px;
@@ -76,14 +115,16 @@ export default {
     }
 
     .number {
+      transition: transform ease 300ms;
       color: #1ba098;
-      display: initial;
+      visibility: hidden;
     }
     .play {
-      display: none;
+      visibility: hidden;
       width: 14px;
     }
     display: flex;
+    flex-direction: row-reverse;
     margin: 4px 8px;
     justify-content: space-between;
     width: 100%;
@@ -169,6 +210,10 @@ tr:hover {
   background-color: red;
 }
 
+.image-song {
+  max-height: 50px;
+  max-width: 40px;
+}
 img {
   max-height: 20px;
   max-width: 40px;

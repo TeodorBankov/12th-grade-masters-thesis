@@ -1,0 +1,14 @@
+{
+  "0 debug pnpm:scope": {
+    "selected": 1
+  },
+  "1 error pnpm": {
+    "code": "ERR_PNPM_NO_IMPORTER_MANIFEST_FOUND",
+    "err": {
+      "name": "pnpm",
+      "message": "No package.json (or package.yaml, or package.json5) was found in \"C:\\Users\\Teodor Bankov\\Documents\\Coding\\12th-grade-masters-thesis\".",
+      "code": "ERR_PNPM_NO_IMPORTER_MANIFEST_FOUND",
+      "stack": "pnpm: No package.json (or package.yaml, or package.json5) was found in \"C:\\Users\\Teodor Bankov\\Documents\\Coding\\12th-grade-masters-thesis\".\n    at readProjectManifest (C:\\Users\\Teodor Bankov\\AppData\\Roaming\\npm\\node_modules\\pnpm\\dist\\pnpm.cjs:19808:13)\n    at async Object.readProjectManifestOnly (C:\\Users\\Teodor Bankov\\AppData\\Roaming\\npm\\node_modules\\pnpm\\dist\\pnpm.cjs:19812:28)\n    at async readProjectManifestOnly (C:\\Users\\Teodor Bankov\\AppData\\Roaming\\npm\\node_modules\\pnpm\\dist\\pnpm.cjs:43691:24)\n    at async Object.handler (C:\\Users\\Teodor Bankov\\AppData\\Roaming\\npm\\node_modules\\pnpm\\dist\\pnpm.cjs:177831:24)\n    at async C:\\Users\\Teodor Bankov\\AppData\\Roaming\\npm\\node_modules\\pnpm\\dist\\pnpm.cjs:182106:21\n    at async run (C:\\Users\\Teodor Bankov\\AppData\\Roaming\\npm\\node_modules\\pnpm\\dist\\pnpm.cjs:182080:34)\n    at async runPnpm (C:\\Users\\Teodor Bankov\\AppData\\Roaming\\npm\\node_modules\\pnpm\\dist\\pnpm.cjs:182299:5)\n    at async C:\\Users\\Teodor Bankov\\AppData\\Roaming\\npm\\node_modules\\pnpm\\dist\\pnpm.cjs:182291:7"
+    }
+  }
+}
