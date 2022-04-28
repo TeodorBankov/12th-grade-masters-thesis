@@ -1,10 +1,7 @@
 <template>
   <div id="parent">
-    <div class="header">
-      <router-link to="/">
-        <!-- <img alt="logo" src = "https://3.bp.blogspot.com/-lOZajwbK_Tg/VFMa-GadTiI/AAAAAAAAGNA/TwtKQoemnLE/s1600/Logo%2BRecyclable_Box.png"> -->
-      </router-link>
-      <h2>Sign in</h2>
+     <div class="child">
+      <Bar />
     </div>
     <form class="container" @submit.prevent="login">
       <div class="form">
@@ -15,9 +12,6 @@
       <div class="form">
         <div class="hstack">
           <label for="password">Password</label>
-          <router-link to="/pass-recovery">
-            <span class="link">Forgot password?</span>
-          </router-link>
         </div>
         <input type="password" v-model="password" />
       </div>
@@ -43,9 +37,9 @@
 import { defineComponent } from "vue";
 import axios from "axios";
 import { useRouter, useRoute } from 'vue-router'
-
+import Bar from "./Bar.vue";
 export default defineComponent({
-  
+    components: { Bar },
    data() {
     return {
       username: "",

@@ -26,7 +26,6 @@ const login = async(req, res, next) => {
 
 const register = async(req, res, next) => {
     if (!(await userExists(req.body.username))) {
-        const username = { user: req.body.username };
         const passwordEncrypted = await hashPassword(req.body.password);
         const user = {
             username: req.body.username,
@@ -92,8 +91,22 @@ const authenticateToken = function authenticateToken(req, res, next) {
     })
 }
 
+const getUserInfo = async function getUserInfo(req, res, next) {
+    let result = await user_collection.findOne({ username: req.user.name })
+        // result.password = ""
+    res.send(result)
+}
+
+const updatePassword = async function updatePassword(req, res, next) {
+    let cryptPassword = await hashPassword(req.body.password)
+    await user_collection.updateOne({ username: req.user.name }, { $set: { password: cryptPassword } })
+    res.send("Updated")
+}
+
 module.exports = {
     login,
     register,
-    authenticateToken
+    authenticateToken,
+    getUserInfo,
+    updatePassword
 };

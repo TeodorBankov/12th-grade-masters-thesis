@@ -15,12 +15,22 @@
       <router-link to="/">
         <span class="button"> Home </span>
       </router-link>
-      <router-link to="/about">
-        <span class="button"> About </span>
-      </router-link>
-      <router-link v-if="isLoggedIn()" to="/profile">
-        <span class="button"> Profile </span>
-      </router-link>
+
+      <div class="dropdown" v-if="isLoggedIn()">
+        <span class="button">Profile</span>
+        <div class="dropdown-content">
+          
+            <router-link to="/profile">
+          <span class="button">My profile </span>
+            </router-link>
+            <br>
+            <router-link to="/login" @click="logOut()">
+              <span class="button"> Log out </span>
+            </router-link>
+          
+        </div>
+      </div>
+
       <router-link v-if="!isLoggedIn()" to="/login">
         <span class="button"> Log in </span>
       </router-link>
@@ -31,6 +41,9 @@
 <script>
 export default {
   methods: {
+    async logOut(){
+      window.localStorage.removeItem("token")
+    },
     isLoggedIn() {
       let token = window.localStorage.getItem("token");
       console.log("token: " + token);
@@ -84,6 +97,32 @@ export default {
     mix-blend-mode: hard-light;
   }
 }
+.dropdown {
+  display: inline-block;
+  position: relative;
+}
+.dropdown-content {
+  display: none;
+  position: absolute;
+  width: 150px;
+  right: 5px;
+  overflow: auto;
+  box-shadow: 0px 10px 10px 0px rgba(0, 0, 0, 0.4);
+}
+.dropdown:hover .dropdown-content {
+  display: block;
+  background: #1a3e57;
+}
+.dropdown-content router-link {
+  display: block;
+  color: #000000;
+  padding: 5px;
+  text-decoration: none;
+}
+.dropdown-content router-link:hover {
+  color: #ffffff;
+  
+}
 .logo {
   height: 50px;
 }
@@ -123,4 +162,5 @@ a {
     color: #b3b3b3;
   }
 }
+
 </style>

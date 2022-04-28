@@ -12,7 +12,7 @@
 <script>
 import Bar from "./Bar.vue";
 export default {
-  components: { Bar },
+  components: { Bar },  
 };
 </script>
 

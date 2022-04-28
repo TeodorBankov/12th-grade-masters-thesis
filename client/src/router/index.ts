@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import Home from "../views/Home.vue";
-
+import Profile from "../components/Profile.vue"
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
@@ -29,6 +29,11 @@ const routes: Array<RouteRecordRaw> = [
 
     component: () =>
       import("../views/Main.vue"),
+  },
+  {
+    path: "/profile",
+    name: "Profile", 
+    component: Profile
   }
 ];
 

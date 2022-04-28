@@ -12,7 +12,7 @@
             <img
               v-if="playingRadio != index"
               class="inverted play"
-              :src="require('@/assets/play-button.png')"
+              :src="require('@/assets/left-arrow.png')"
               @click="play(radio.url, index)"
             />
             <img

@@ -112,6 +112,11 @@ export default {
       .table-row-index {
         font-weight: 1000;
       }
+      .image-song{
+          transform: scale(1.5);
+          border-radius: 20px;
+      }
+
     }
 
     .number {

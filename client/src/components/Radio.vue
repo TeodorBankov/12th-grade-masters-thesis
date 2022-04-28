@@ -20,13 +20,13 @@
       </div>
 
       <div id="player">
-        <RadioPlayer
+        <RadioPlayer  ref="RadioPlayer"
           :paused="paused"
           :radioUrl="url"
           @paused="paused = true"
           @play="paused = false"
         />
-        <LikedSongs ref="LikedSongs" />
+        <LikedSongs v-if="isLoggedIn()" ref="LikedSongs" />
       </div>
     </div>
   </div>
@@ -56,13 +56,19 @@ export default defineComponent({
       paused: true,
       polling: null,
       recognizedSong: [],
-      LikedSongs
+      userId: "",
+      LikedSongs,
+      RadioPlayer
     };
   },
   async created() {
     this.updateRadios("BG", "country");
   },
   methods: {
+    isLoggedIn(){
+        let token = window.localStorage.getItem("token");
+        return !(token ==null)
+    },
     updateRadios(searchterm, by = "name") {
       if (searchterm == "") {
         by = "country";
@@ -96,18 +102,22 @@ export default defineComponent({
     },
     playRadio(url) {
       this.url = url;
-      this.paused = false;
+      // this.paused = false;
       this.startRecognizing();
     },
     stopRadio() {
       this.paused = true;
       this.stopRecognizing();
     },
+    generateQueryID() {
+      return Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 20)
+    },
     getSong() {
       axios
         .get("http://localhost:3000/fetch-song", {
           params: {
             url: this.url,
+            userId : this.generateQueryID(),
           },
         })
         .then((res) => {

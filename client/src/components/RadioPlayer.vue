@@ -2,7 +2,7 @@
   <div id="radio-player">
     <div class="hstack">
       <div>
-        {{ paused }}
+       
         <span @click="play">
           <img
             class="inverted player-button"
@@ -59,6 +59,17 @@ export default defineComponent({
     this.audio.ontimeupdate = () => {
       self.generateTime();
     };
+  },
+  play(){
+if (this.audio.paused) {
+        this.isPlaying = false;
+        this.audio.play();
+        this.$emit("play");
+      } else {
+        this.isPlaying = true;
+        this.audio.pause();
+        this.$emit("paused");
+      }
   },
   methods: {
     play() {
