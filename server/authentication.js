@@ -93,7 +93,6 @@ const authenticateToken = function authenticateToken(req, res, next) {
 
 const getUserInfo = async function getUserInfo(req, res, next) {
     let result = await user_collection.findOne({ username: req.user.name })
-        // result.password = ""
     res.send(result)
 }
 

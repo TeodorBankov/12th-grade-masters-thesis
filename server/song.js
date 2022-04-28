@@ -37,11 +37,12 @@ const removeSong = async(req, res, next) => {
             username: req.user.name,
             title: req.body.title,
         });
-        res.send("oke");
+        res.send("ok");
     } else {
         res.status(400).send("doesnt exist");
     }
 };
+
 module.exports = {
     addToLiked,
     getLikedSongs,
