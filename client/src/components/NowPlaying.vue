@@ -34,7 +34,7 @@
       <div v-else>
         <img
           class="inverted share-icon"
-          style="opacity: 60%"
+          style="opacity: 100%"
           :src="require('@/assets/share-icon.png')"
         />
       </div>
@@ -114,19 +114,19 @@ export default {
   padding: 10px;
   margin-top: auto;
   margin-bottom: auto;
-  background-color: #0b2333;
+  background-color: #1D3461;
   border-radius: 10px;
 }
 #song-name {
   // flex-direction: column;
-  color: #deb992;
+  color: #FB3640;
   font-weight: 600;
   font-size: 20px;
 }
 #song-subtitle {
   // flex-direction: column;
-  color: #deb992;
-  opacity: 50%;
+  color: #FB3640;
+  opacity: 100%;
 }
 #current-song-info {
   display: flex;
@@ -143,12 +143,12 @@ export default {
   justify-content: space-between;
 }
 .label {
-  color: #deb992;
-  opacity: 60%;
+  color: #FB3640;
+  opacity: 100%;
   padding-right: 6px;
 }
 .song-genre {
-  color: #deb992;
+  color: #FB3640;
 }
 .playing-pic {
   max-height: 50vh;

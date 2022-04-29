@@ -85,7 +85,7 @@ export default {
 .bar {
   font-size: 22px;
   display: flex;
-  background-color: #0b2333;
+  background-color: #1D3461;
   border-radius: 10px;
 }
 .div-logo {
@@ -119,8 +119,8 @@ export default {
   padding: 5px;
   text-decoration: none;
 }
-.dropdown-content router-link:hover {
-  color: #ffffff;
+.dropdown-content >* :hover {
+  color: #FB3640;
   
 }
 .logo {
@@ -139,18 +139,18 @@ export default {
   margin-right: 10px;
   transition: 0.3s;
   padding: 6px;
-  color: #1ba098;
+  color: #FB3640;
   font-weight: 650;
 }
 .button {
   transition: 0.3s;
-  color: #1ba098;
+  color: #247BA0;
   font-weight: 450;
   margin: 0px 10px;
 }
 .headerDivider {
   border-radius: 1px;
-  border: 1px solid #38546d;
+  border: 1px solid #FB3640;
   margin-right: 4px;
   margin-top: 4px;
   margin-bottom: 4px;
@@ -159,7 +159,7 @@ a {
   text-decoration: none;
   :hover {
     transition: 0.3s;
-    color: #b3b3b3;
+    color: #FB3640;
   }
 }
 

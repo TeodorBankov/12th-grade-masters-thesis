@@ -1,17 +1,17 @@
 <template>
   <div id="container-liked">
-    <h1>Liked songs:</h1>
+    <h1 style="color: #FB3640">Liked songs:</h1>
     <div id="container">
       <div id="child-container">
         <div class="table">
           <div v-for="(song) in likedSongs" :key="song.title" class="table-row">
-            <span class="number">
+            <span class="number inverted">
               <a :href="song.hrefUrl">
                 <img :src="require('@/assets/share-icon.png')" />
               </a>
             </span>
 
-            <span class="number" @click="removeSong(song.title)">
+            <span class="number inverted" @click="removeSong(song.title)">
               <img :src="require('@/assets/trash-icon.png')" />
             </span>
             <span class="table-row-name">{{ song.title }}</span>
@@ -19,7 +19,7 @@
 
             <span class="table-row-img">
               <img
-                class="image-song"
+                class="image-song "
                 style="height: 50px !important"
                 :src="song.img || require('@/assets/radio-icon.png')"
                 alt=""
@@ -167,7 +167,7 @@ export default {
 #child-container {
   display: flex;
   flex-direction: column;
-  background-color: #0b2333;
+  background-color: #1D3461;
   border-radius: 10px;
   height: 420px;
   padding-right: 2px;

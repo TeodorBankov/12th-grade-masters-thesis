@@ -4,7 +4,7 @@
       <Bar />
     </div>
 
-    <h1>My profile:</h1>
+    <h1 style="color: #FB3640">My profile:</h1>
     <div class="main-container">
       <div class="newPassword">
         <form @submit.prevent="updatePassword">
@@ -115,7 +115,7 @@ export default {
 .main-container {
   width: 50vw;
   height: 70vh;
-  background: #1d374b;
+  background: #1D3461;
   margin: auto;
   border-radius: 10px;
   display: flex;
@@ -148,12 +148,12 @@ export default {
   flex-basis: 100%;
 }
 .username {
-  color: rgb(189, 207, 245);
+  color: #FB3640;
   font-size: 2em;
 }
 .email {
   font-size: 1em;
-  color: rgb(211, 211, 211);
+  color: rgb(116, 235, 142);
 }
 
 label {
@@ -172,14 +172,15 @@ input {
   font-weight: bold;
 }
 .submitbtn {
-  background-color: #26a641;
+  background-color: #FB3640;
   margin: 10px 0px 0px;
+  width:80%;
   font-weight: 550;
   transition: 0.5s;
 }
 
 .submitbtn:hover {
   transition: 0.5s;
-  background-color: #39d353;
+  background-color: #b37a7d;
 }
 </style>

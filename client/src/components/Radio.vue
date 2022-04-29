@@ -155,8 +155,10 @@ export default defineComponent({
 }
 #hstack {
   display: flex;
-  justify-content: space-between;
+  
+  justify-content: stretch;
 }
+
 #player {
   margin-top: 0;
   padding-top: 10px;

@@ -35,6 +35,7 @@
             >The password should contain at least 8 symbols, including one
             number and uppercase character!</span
           >
+          <h1>{{msg}}</h1>
         </div>
       </div>
       <div class="form">
@@ -59,7 +60,8 @@ export default defineComponent({
         confirmPassword: "",
         showPasswordMatchError: false,
         displayPasswordWarning: false,
-        router: useRouter()
+        router: useRouter(),
+        msg: ""
       };
     },
     methods: {
@@ -85,9 +87,13 @@ export default defineComponent({
      async register() {
         let userData = {email: this.email, username: this.username, password: this.password}
         console.log(userData);
+        try{
           let result =  (await axios.post('http://localhost:3000/register', userData)).data;
           window.localStorage.setItem("token",result)
           this.router.push({ path: '/main', replace: true })
+          }catch(err){
+            this.msg = "Profile already exists"
+          }
       }
     },
     watch: {

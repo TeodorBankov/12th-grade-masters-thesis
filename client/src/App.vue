@@ -1,20 +1,13 @@
 <template>
   <span>
     <router-view />
-    <!-- <div id="nav"> -->
-      <!-- <router-link to="/">Home</router-link> | -->
-      <!-- <router-link to="/about">About</router-link> | -->
-      <!-- <router-link to="/login">Login</router-link> -->
-    <!-- </div> -->
   </span>
 </template>
 
-//// Colors Used: #242333, #FFFFFF, #01B0D3
-//// #051622 #1BA098 #DEB992
 <style lang="scss">
 //app wise editing
 html {
-  background-color: #184a6e;
+  background-color: #1F487E;
   scroll-behavior: smooth;
 }
 

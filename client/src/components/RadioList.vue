@@ -143,9 +143,8 @@ export default {
 #child-container {
   display: flex;
   flex-direction: column;
-  background-color: #0b2333;
+  background-color: #1D3461;
   border-radius: 10px;
-  height: 420px;
   padding-right: 2px;
   padding-bottom: 2px;
 }
