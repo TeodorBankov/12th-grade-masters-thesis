@@ -8,7 +8,7 @@ const { join } = require("path");
  */
 const runScript = (scriptName, callback, args) => {
     spawn(
-        `python3 "${join(__dirname, "..", "scripts", scriptName)}" ${args}`,
+        `python "${join(__dirname, "..", "scripts", scriptName)}" ${args}`,
         callback
     );
 };
@@ -18,7 +18,7 @@ const runScript = (scriptName, callback, args) => {
  * @param {string} args
  */
 const runScriptSync = (scriptName, args) => {
-    return spawnSync(`python3`, [
+    return spawnSync(`python`, [
         join(__dirname, "..", "scripts", scriptName),
         args,
     ]);

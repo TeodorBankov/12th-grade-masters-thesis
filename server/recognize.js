@@ -1,6 +1,7 @@
 const axios = require("axios");
 const fs = require("fs");
 const { runScript, runScriptSync } = require("./lib");
+const { error } = require("console");
 
 const fetch_song_stream_and_recognize = async(req, res) => {
 
@@ -11,7 +12,6 @@ const fetch_song_stream_and_recognize = async(req, res) => {
             responseType: "stream",
         })
         .then((response) => {
-            // let stream = fs.createWriteStream("scripts/asd.aac");
             let stream = fs.createWriteStream(`scripts/${req.query.userId}.aac`)
             response.data.pipe(stream);
 
@@ -28,9 +28,7 @@ const recognize_song = async(_req, res) => {
     console.log("Pipe data from python script ...");
     let data = JSON.parse(
         runScriptSync(`music-recognition.py`, `${_req.query.userId}.aac`)
-        .output.toString()
-        .split(/[\r\n]/)[0] // regex splits response every new line 
-        .slice(1) // removes leftover bracket after split (conversion to normal json)
+        .output.toString().substring(1).slice(0, -2)
     );
     try {
         fs.unlinkSync(`scripts/${_req.query.userId}.aac`);

@@ -7,10 +7,12 @@ import os
 async def main():
     shazam = Shazam()
     path = os.getcwd()
-    out = await shazam.recognize_song(os.path.join(path, 'scripts',sys.argv[1]))
+    # print(os.path.join(path, 'scripts',sys.argv[1]))
+    out = await shazam.recognize(os.path.join(path, 'scripts', sys.argv[1]))
     print(json.dumps(out))
 
-loop = asyncio.get_event_loop()
-loop.run_until_complete(main())
+# loop = asyncio.get_event_loop()
+# loop.run_until_complete(main())
+asyncio.run(main())
 
 # https://github.com/dotX12/ShazamIO
